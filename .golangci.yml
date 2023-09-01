@@ -1,0 +1,19 @@
+# Enable all linters except the deprecated and annoying ones
+linters:
+  enable-all: true
+  disable:
+    # Deprecated
+    - nosnakecase
+    - exhaustivestruct
+    - varcheck
+    - interfacer
+    - structcheck
+    - maligned
+    - scopelint
+    - ifshort
+    - golint
+    - deadcode
+    # Not relevant for me
+    - depguard
+    # Sorry, but annoying for the std lib
+    - wrapcheck
