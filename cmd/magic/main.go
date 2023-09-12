@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"git.bode.fun/magic"
 )
@@ -34,11 +35,9 @@ func mainE() error {
 		return err
 	}
 
-	executablePaths := make([]string, 0)
-
 	err = filepath.WalkDir(rootPath, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
-			return nil
+			return nil //nolint
 		}
 
 		if d.IsDir() {
@@ -47,21 +46,19 @@ func mainE() error {
 
 		isExe, err := magic.IsAnExecutable(path)
 		if err != nil {
-			return nil
+			return nil //nolint
 		}
 
-		if isExe {
-			executablePaths = append(executablePaths, path)
+		isGitSubfolder := strings.Contains(path, ".git")
+
+		if isExe && !isGitSubfolder {
+			fmt.Fprintln(os.Stdout, path)
 		}
 
 		return nil
 	})
 	if err != nil {
 		return err
-	}
-
-	for _, path := range executablePaths {
-		fmt.Fprintln(os.Stdout, path)
 	}
 
 	return nil

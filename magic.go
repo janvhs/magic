@@ -26,10 +26,10 @@ func IsAnExecutable(path string) (bool, error) {
 
 	switch magicNumShort {
 	case MagicFat32BE, MagicFat32LE, MagicFat64BE, MagicFat64LE,
-		MagicMacho32BE, MagicMacho32LE, MagicMacho64BE, MagicMacho64LE:
+		MagicMacho32BE, MagicMacho32LE, MagicMacho64BE, MagicMacho64LE,
+		MagicScript:
 		return true, nil
 	default:
-		// TODO: Test with file containing only #!
 		// Set the last bytes to zero, to check for a shebang,
 		// whose magic is only 2 bytes long.
 		magicNumShort &= 0xFFFF0000
